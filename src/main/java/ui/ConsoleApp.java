@@ -1,9 +1,10 @@
-import ui.screen.LaunchScreen;
+package ui;
 
+import ui.screen.LaunchScreen;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public class Mouse {
+public class ConsoleApp {
 
     //https://coinfaucet.eu/en/btc-testnet/
     public static final String coin_faucet_return_Address = "tb1qerzrlxcfu24davlur5sqmgzzgsal6wusda40er";
