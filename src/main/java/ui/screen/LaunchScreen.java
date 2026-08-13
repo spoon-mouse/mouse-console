@@ -9,6 +9,7 @@ import org.bitcoinj.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.stream.Collectors;
 
 import static ui.input.Input.*;
@@ -28,7 +29,7 @@ public class LaunchScreen {
         Context context = Context.getOrCreate();
         Context.propagate(context);
 
-        Kit.start();
+        Kit.start(new File("./wallet"));
         Runtime.getRuntime().addShutdownHook(new Thread(Kit::stop));
         show();
     }
