@@ -39,13 +39,6 @@ public class WalletScreen {
                     break;
                 case RECIVE:
                     terminal.println(walletName+" receive address: "+wallet.currentReceiveAddress());
-                    BitMatrix matrix = null;
-                    try {
-                        matrix = Kit.getCurrentReceiveAddressQRmatrix(walletName, 400);
-                        QrTerminal.print(matrix, true);
-                    } catch (WriterException e) {
-                        throw new RuntimeException(e);
-                    }
                     break;
                 case PENDING:
                     terminal.println(expanded_transation_table(wallet.getPendingTransactions().stream().toList(), wallet) );
