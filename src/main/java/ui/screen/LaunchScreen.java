@@ -59,11 +59,8 @@ public class LaunchScreen {
 
     private static void listen() {
         Kit.doSomeListningOrSomeThingLiekThis(terminal::println);
-        try {
-            Kit.class.wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+        terminal.read(false);
     }
 
     private static void restore() {
