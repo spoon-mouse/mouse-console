@@ -23,7 +23,7 @@ public class LaunchScreen {
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
 
-    public enum Choice {WALLET, RESTORE, DIGEST, EXIT}
+    public enum Choice {WALLET, RESTORE, DIGEST, LISTEN, EXIT}
 
     public LaunchScreen() {
         Context context = Context.getOrCreate();
@@ -48,9 +48,21 @@ public class LaunchScreen {
                 case DIGEST:
                     digest();
                     break;
+                case LISTEN:
+                    listen();
+                    break;
                 case EXIT:
                     System.exit(0);
             }
+        }
+    }
+
+    private static void listen() {
+        Kit.doSomeListningOrSomeThingLiekThis(terminal::println);
+        try {
+            Kit.class.wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
