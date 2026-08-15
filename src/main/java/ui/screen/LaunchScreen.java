@@ -58,9 +58,7 @@ public class LaunchScreen {
     }
 
     private static void listen() {
-        Kit.doSomeListningOrSomeThingLiekThis(terminal::println);
-
-        terminal.read(false);
+        Kit.doSomeListningOrSomeThingLiekThis();
     }
 
     private static void restore() {
