@@ -18,7 +18,7 @@ public class InfoScreen {
     private static TextTerminal terminal = textIO.getTextTerminal();
 
     public enum Choice {
-        SIMPLE, EXPANDED, PENDING, SENT, RECEIVED, MOVED, UTXO, ADDRES, VIEW_TXN, VIEW_WAL, BACK, EXIT
+        SIMPLE, EXPANDED, PENDING, SENT, RECEIVED, MOVED, UTXO, ADDRES, VIEW_TXN, CLEANUP, VIEW_WAL, BACK, EXIT
     }
 
     private String walletName;
@@ -62,6 +62,9 @@ public class InfoScreen {
                 case VIEW_TXN:
                     view_a_transaction();
                     break;
+                case CLEANUP:
+                    walletCleanup();
+                    break;
                 case VIEW_WAL:
                     show_wallet_info();
                     break;
@@ -72,6 +75,10 @@ public class InfoScreen {
             }
         }
 
+    }
+
+    private void walletCleanup() {
+        wallet.cleanup();
     }
 
 
