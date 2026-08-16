@@ -26,11 +26,19 @@ public class TxnTable {
             Transaction tx = wallet.getTransaction(hash);
             if(tx==null){return "ID NOT FOUND";}
 
+            String inputSequenceNumber = "";
+            for (TransactionInput input : tx.getInputs()) {
+                inputSequenceNumber += String.format("%s sequence=0x%08x%n", input.getOutpoint(), input.getSequenceNumber())+System.lineSeparator();
+            }
+
             TxnInfo info = TxnInfo.get(tx, wallet);
             return tx+System.lineSeparator()
                      +"toAddress: "+info.toAddress()
                      +System.lineSeparator()
-                     +info;
+                     +info
+                     +System.lineSeparator()
+                     +inputSequenceNumber;
+
         }catch (IllegalArgumentException e){
             return "id NOT FOUND "+e.getMessage();
         }
