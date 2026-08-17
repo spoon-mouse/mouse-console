@@ -1,6 +1,7 @@
 package ui.screen;
 
 import com.mouse.backend.Kit;
+import com.mouse.backend.txn.IllegalAmountException;
 import com.mouse.backend.txn.TxnUtil;
 import com.mouse.backend.util.AddressAmountFee;
 import com.mouse.backend.util.CoinSelectOption;
@@ -14,6 +15,7 @@ import org.bitcoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.ConnectException;
 import java.util.concurrent.ExecutionException;
 
 import static ui.input.Input.*;
@@ -79,7 +81,11 @@ public class SendScreen {
             } catch (VerificationException e) {
                 terminal.println(e.getMessage());
             } catch (ExecutionException | InterruptedException | IllegalMonitorStateException e) {
-                log.error(" ", e);
+                terminal.println(e.getMessage());
+            } catch (IllegalAmountException e) {
+                terminal.println(e.getMessage());
+            } catch (ConnectException e) {
+                terminal.println(e.getMessage());
             }
         }
     }
