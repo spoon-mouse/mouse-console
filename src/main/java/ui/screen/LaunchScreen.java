@@ -58,7 +58,7 @@ public class LaunchScreen {
     }
 
     private static void listen() {
-        Kit.doSomeListningOrSomeThingLiekThis();
+        Kit.addLoggingInfoForWalletBlockEvents();
     }
 
     private static void restore() {
