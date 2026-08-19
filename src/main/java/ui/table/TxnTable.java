@@ -140,7 +140,7 @@ public class TxnTable {
         return table.render()+System.lineSeparator();
     }
 
-    public static List<Address> addressesSentTo(Wallet wallet){
+    public static List<String> addressesSentTo(Wallet wallet){
         return wallet.getTransactionsByTime().stream().map(tx -> TxnInfo.get(tx, wallet)).filter(TxnInfo::isSend)
                 .map(tx -> tx.toAddress() ).distinct().toList();
     }
