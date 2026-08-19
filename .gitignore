@@ -5,12 +5,12 @@
 *.iml
 .idea
 target
-wallet
+wallet-old
 pom.xml~
 .cucumber+
 dependency-reduced-pom.xml
 *.spvchain
-*.wallet
+/wallet.*
 *.pass
 *.seed
 *.DS_Store
