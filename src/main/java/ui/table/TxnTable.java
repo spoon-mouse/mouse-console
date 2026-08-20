@@ -5,7 +5,6 @@ import com.mouse.backend.csv.CsvUtil;
 import com.mouse.backend.txn.TxnInfo;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestWord;
-import org.bitcoinj.base.Address;
 import org.bitcoinj.base.Sha256Hash;
 import org.bitcoinj.core.*;
 import org.bitcoinj.wallet.Wallet;
@@ -33,7 +32,7 @@ public class TxnTable {
 
             TxnInfo info = TxnInfo.get(tx, wallet);
             return tx+System.lineSeparator()
-                     +"toAddress: "+info.toAddress()
+                     +"toAddress: "+info.getAddressSentTo()
                      +System.lineSeparator()
                      +info
                      +System.lineSeparator()
@@ -102,7 +101,7 @@ public class TxnTable {
         AsciiTable table = getTable("id", "type", "amount", "fee", "address");
 
         txns.stream().map(tx -> TxnInfo.get(tx, wallet)).filter(TxnInfo::isSend).toList().forEach(tx ->{
-            table.addRow( tx.id(), tx.type(), tx.amount(), tx.fee(), tx.toAddress());
+            table.addRow( tx.id(), tx.type(), tx.amount(), tx.fee(), tx.getAddressSentTo());
         });
         table.addRule();
         return table.render()+System.lineSeparator()+"Transactions: "+txns.size();
@@ -112,7 +111,7 @@ public class TxnTable {
         AsciiTable table = getTable("id", "type", "amount", "address");
 
         txns.stream().map(tx -> TxnInfo.get(tx, wallet)).filter(TxnInfo::zeroSentFromMe).toList().forEach(tx ->{
-            table.addRow( tx.id(), tx.type(), tx.amount(), tx.toAddress());
+            table.addRow( tx.id(), tx.type(), tx.amount(), tx.getAddressSentTo());
         });
         table.addRule();
         return table.render()+System.lineSeparator()+"Transactions: "+txns.size();
@@ -142,7 +141,7 @@ public class TxnTable {
 
     public static List<String> addressesSentTo(Wallet wallet){
         return wallet.getTransactionsByTime().stream().map(tx -> TxnInfo.get(tx, wallet)).filter(TxnInfo::isSend)
-                .map(tx -> tx.toAddress() ).distinct().toList();
+                .map(tx -> tx.getAddressSentTo() ).distinct().toList();
     }
 
 
