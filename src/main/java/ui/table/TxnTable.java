@@ -48,7 +48,7 @@ public class TxnTable {
         AsciiTable table = getTable( "locked", "lockValue", "value", "blockDepth", "utxo id", "outputIdx", "dust", "address");
 
         CsvScriptExtension ext = (CsvScriptExtension) wallet.getExtensions().get(COM_SPOON_MOUSE_CSV_REDEEM_SCRIPTS);
-        CsvUtil scvUtil = new CsvUtil( ext.getRedeemScripts() );
+        CsvUtil scvUtil = new CsvUtil( ext );
 
         Map<Sha256Hash, List<TransactionOutput>> map = wallet.getUnspents().stream().sorted((x, y) -> (int) (x.getValue().value - y.getValue().value))
                                                              .collect(groupingBy(TransactionOutput::getParentTransactionHash));

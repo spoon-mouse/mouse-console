@@ -87,7 +87,7 @@ public class LaunchScreen {
     private static void digest() {
         AsciiTable table = getTable("name", "encrypted", "balance", "block hight", "id", "receive address");
         Kit.getMetaWallets().forEach( w -> {
-            table.addRow(w.name(), w.isEncrypted(), w.balance(), w.blockHeight(), w.id(), w.reciveAddress());
+            table.addRow(w.name(), w.isEncrypted(), w.balance(), w.blockHeight(), w.id(), w.receiveAddress());
         });
         table.addRule();
         terminal.println(table.render());
