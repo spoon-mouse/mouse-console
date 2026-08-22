@@ -1,8 +1,5 @@
 package ui.screen;
 
-import com.github.auties00.qr.QrTerminal;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 import com.mouse.backend.Kit;
 import org.beryx.textio.*;
 import org.bitcoinj.base.Coin;
@@ -62,5 +59,4 @@ public class WalletScreen {
             }
         }
     }
-
 }

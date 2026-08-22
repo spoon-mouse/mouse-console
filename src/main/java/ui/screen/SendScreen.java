@@ -2,10 +2,7 @@ package ui.screen;
 
 import com.mouse.backend.Kit;
 import com.mouse.backend.csv.CsvTxn;
-import com.mouse.backend.txn.IllegalAmountException;
-import com.mouse.backend.txn.RbfTxn;
-import com.mouse.backend.txn.StdTxn;
-import com.mouse.backend.txn.Txn;
+import com.mouse.backend.txn.*;
 import com.mouse.backend.util.CoinSelectOption;
 import ui.input.Input;
 import org.beryx.textio.TextIO;
@@ -56,7 +53,8 @@ public class SendScreen {
                     case RBF:
                         txn = new RbfTxn(walletName);
                         txn.setTxnId(Input.getTxId()).setFee(Input.getFee());
-                        txn.send(Input::getPassword, terminal::println);
+                        TxnInfo sent = txn.send(Input::getPassword, terminal::println);
+                        terminal.println(sent.toString());
                         break;
                     case CSV:
                         txn = new CsvTxn(walletName).setCheckSeqVerDuration(Input.getLockDepth());
