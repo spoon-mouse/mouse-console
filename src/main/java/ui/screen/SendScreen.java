@@ -20,7 +20,7 @@ public class SendScreen {
 
     private static Logger log = LoggerFactory.getLogger(SendScreen.class);
 
-    public enum Choice {PENDING, SEND, RBF, CSV,  SWEEP, SELECTOR, BACK, EXIT;}
+    public enum Choice {PENDING, SEND, RBF, CSV,  SWEEP, SELECTOR, VIEW_TXN, BACK, EXIT;}
 
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
@@ -48,18 +48,20 @@ public class SendScreen {
                     case SEND:
                         txn = new StdTxn(walletName);
                         txn.setAddress(Input.getAddress()).setAmount(Input.getAmount()).setFee(Input.getFee());
-                        txn.send(Input::getPassword, terminal::println);
+                        TxnInfo sent = txn.send(Input::getPassword, terminal::println);
+                        terminal.println(sent.toString());
                         break;
                     case RBF:
                         txn = new RbfTxn(walletName);
                         txn.setTxnId(Input.getTxId()).setFee(Input.getFee());
-                        TxnInfo sent = txn.send(Input::getPassword, terminal::println);
+                        sent = txn.send(Input::getPassword, terminal::println);
                         terminal.println(sent.toString());
                         break;
                     case CSV:
                         txn = new CsvTxn(walletName).setCheckSeqVerDuration(Input.getLockDepth());
                         txn.setAddress(Input.getAddress()).setAmount(Input.getAmount()).setFee(Input.getFee());
-                        txn.send(Input::getPassword, terminal::println);
+                        sent = txn.send(Input::getPassword, terminal::println);
+                        terminal.println(sent.toString());
                         break;
                     case SWEEP:
                         break;
@@ -67,6 +69,9 @@ public class SendScreen {
                         CoinSelectOption option = textIO.newEnumInputReader(CoinSelectOption.class).read("Coin Selector:");
                         txn.setCoinSelector(option);
                         terminal.println("set coin selection by "+option);
+                        break;
+                    case VIEW_TXN:
+                        InfoScreen.view_a_transaction(wallet);
                         break;
                     case BACK:
                         return;

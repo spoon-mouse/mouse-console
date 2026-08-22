@@ -60,7 +60,7 @@ public class InfoScreen {
                     terminal.println( send_addresses_table(wallet) );
                     break;
                 case VIEW_TXN:
-                    view_a_transaction();
+                    view_a_transaction(wallet);
                     break;
                 case CLEANUP:
                     walletCleanup();
@@ -82,7 +82,7 @@ public class InfoScreen {
     }
 
 
-    private void view_a_transaction() {
+    public static void view_a_transaction(Wallet wallet) {
         String id = getTxId();
 
         if(id==null || id.isEmpty()){
