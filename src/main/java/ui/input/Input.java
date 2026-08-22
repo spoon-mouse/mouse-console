@@ -1,6 +1,5 @@
 package ui.input;
 
-import com.mouse.backend.util.AddressAmountFee;
 import com.mouse.backend.util.Config;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -37,27 +36,19 @@ public class Input {
                 .read("address to:");
     }
 
-    public static long getFee() {
-        long fee = textIO.newLongInputReader()
-                .withDefaultValue(AddressAmountFee.MIN_FEE)
-                .withMinVal(AddressAmountFee.MIN_FEE)
-                .withMaxVal(AddressAmountFee.MAX_FEE)
+    public static double getFee() {
+        double fee = textIO.newDoubleInputReader().withDefaultValue(Config.DEFAULT_FEE).withMinVal(Config.MIN_FEE).withMaxVal(Config.MAX_FEE)
                 .withInputTrimming(true)
                 .read("fee (sats per vbyte):");
         return fee;
     }
 
-    public static long getConfirmation() {
+    public static long getLockDepth() {
 
         long l = textIO.newLongInputReader()
                 .withDefaultValue(1l)
-                .withMinVal(1l)
-                .withMaxVal(1000l)
                 .withInputTrimming(true)
-                .read("chain depth lock:");
-
-        validateConfimationCsvSequenceNumber(l);
-
+                .read("depth lock:");
         return l;
     }
 
