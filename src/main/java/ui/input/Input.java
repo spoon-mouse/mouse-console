@@ -11,7 +11,7 @@ import static ui.screen.PasswordScreen.DEFAULT_PASSWORD;
 
 public class Input {
 
-    public static final String REGEX_12_WORDS = "^[A-Za-z]+(?:\\s+[A-Za-z]+){11}$";
+    public static final String REGEX_12_WORDS = "^$|^[A-Za-z]+(?:\\s+[A-Za-z]+){11}$";
 
     public static final String REDEEM_SCRIPT_TIME_KV = "^" + Config.REDEEM_SCRIPT_HEX_KEY + "=(?:[0-9a-fA-F]{2})+ " + Config.CREATION_TIME_KEY + "=[0-9]+$";
 
@@ -79,11 +79,11 @@ public class Input {
         return textIO.newStringInputReader().withDefaultValue(DEFAULT_WALLET_NAME).withInputTrimming(true).read("wallet name");
     }
 
-    public static CharSequence getPassword() {
+    public static char[] getPassword() {
         return textIO.newStringInputReader()
                 .withDefaultValue(DEFAULT_PASSWORD)
                 .withInputMasking(true)
-                .read("password");
+                .read("password").toCharArray();
     }
 
 

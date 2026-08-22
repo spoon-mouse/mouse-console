@@ -1,5 +1,6 @@
 package ui.screen;
 
+import com.mouse.backend.util.CharArrayCharSequence;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -7,6 +8,7 @@ import org.bitcoinj.wallet.Wallet;
 
 import java.io.IOException;
 
+import static com.mouse.backend.util.CharArrayCharSequence.*;
 import static ui.input.Input.getPassword;
 import static ui.screen.SecScreen.BAD_WALLET_DECRYPTION;
 
@@ -73,9 +75,9 @@ public class PasswordScreen {
         if (wallet.isEncrypted()) {
             terminal.println(WALLET_IS_ENCRYPTED);
         }else {
-            CharSequence p1 = getPassword();
+            CharSequence p1 = CharArrayCharSequence.of(getPassword());
             terminal.print("repeat ");
-            CharSequence p2 = getPassword();
+            CharSequence p2 = CharArrayCharSequence.of(getPassword());
 
             if(CharSequence.compare(p1, p2)==0){
                 wallet.encrypt(p1);
@@ -92,7 +94,7 @@ public class PasswordScreen {
             terminal.println(WALLET_IS_NOT_ENCRYPTED);
         }else {
             try {
-                wallet.decrypt(getPassword());
+                wallet.decrypt(CharArrayCharSequence.of(getPassword()));
                 terminal.println(DECRYPTED_MSG);
             }catch (Wallet.BadWalletEncryptionKeyException e){
                 terminal.println(BAD_WALLET_DECRYPTION);
@@ -104,12 +106,12 @@ public class PasswordScreen {
         if(wallet.isEncrypted()){
             try {
                 terminal.print(OLD_Msg);
-                CharSequence old = getPassword();
+                CharSequence old = CharArrayCharSequence.of(getPassword());
 
                 terminal.print(NEW_MSG);
-                CharSequence p1 = getPassword();
+                CharSequence p1 = CharArrayCharSequence.of(getPassword());
                 terminal.print(REPEAT_NEW_MSG);
-                CharSequence p2 = getPassword();
+                CharSequence p2 = CharArrayCharSequence.of(getPassword());
 
                 if(CharSequence.compare(p1, p2)!=0) {
                     terminal.println(PASSWORDS_DID_NOT_MATCH);

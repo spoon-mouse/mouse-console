@@ -1,6 +1,7 @@
 package ui.screen;
 
 import com.mouse.backend.Kit;
+import com.mouse.backend.util.CharArrayCharSequence;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -10,7 +11,6 @@ import org.bitcoinj.wallet.Wallet;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Optional;
-
 import static ui.input.Input.getPassword;
 
 public class SecScreen {
@@ -54,7 +54,7 @@ public class SecScreen {
 
         try {
             if(wallet.isEncrypted()){
-                password = getPassword();
+                password = CharArrayCharSequence.of(getPassword());
                 wallet.decrypt(password);
             }
             DeterministicSeed deterministicSeed = wallet.getKeyChainSeed();

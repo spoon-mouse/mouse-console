@@ -55,6 +55,7 @@ public class TxnTable {
         map.values().stream().flatMap( l -> l.stream() ).forEach( utxo->{
 
             table.addRow(scvUtil.isTxOutputCsvScript(utxo),
+
                          scvUtil.getRelativeLock(utxo),
                          utxo.getValue().value,
                          utxo.getParentTransactionDepthInBlocks(),

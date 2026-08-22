@@ -32,7 +32,7 @@ public class WalletScreen {
     public void show() throws IOException {
         while(true) {
             Coin balance = wallet.getBalance();
-            Choice choice = textIO.newEnumInputReader(Choice.class).read(walletName+" balance ("+balance.toFriendlyString()+") ("+balance.value+" sats)"+" connections="+Kit.connections());
+            Choice choice = textIO.newEnumInputReader(Choice.class).read(walletName+" balance ("+balance.toFriendlyString()+") ("+balance.value+" sats)"+" connections "+Kit.connections());
             switch (choice) {
                 case SEND:
                     new SendScreen(walletName).show();

@@ -16,14 +16,14 @@ import org.bitcoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ui.input.Input.*;
+import static ui.table.TxnTable.expanded_transation_table;
 
 
 public class SendScreen {
 
     private static Logger log = LoggerFactory.getLogger(SendScreen.class);
 
-    public enum Choice {SEND, RBF, CSV,  SWEEP, SELECTOR, BACK, EXIT;}
+    public enum Choice {PENDING, SEND, RBF, CSV,  SWEEP, SELECTOR, BACK, EXIT;}
 
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
@@ -45,6 +45,9 @@ public class SendScreen {
             Choice choice = textIO.newEnumInputReader(Choice.class).read(walletName+" Transactions");
             try {
                 switch (choice) {
+                    case PENDING:
+                        terminal.println(expanded_transation_table(wallet.getPendingTransactions().stream().toList(), wallet) );
+                        break;
                     case SEND:
                         txn = new StdTxn(walletName);
                         txn.setAddress(Input.getAddress()).setAmount(Input.getAmount()).setFee(Input.getFee());
