@@ -6,8 +6,10 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.bitcoinj.core.*;
+import org.bitcoinj.wallet.UnreadableWalletException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ui.input.Input;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class LaunchScreen {
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
 
-    public enum Choice {WALLET, RESTORE, DIGEST, LISTEN, DELETE, EXIT}
+    public enum Choice {WALLET, DIGEST, RESTORE, RENAME, RESEED, LISTEN, DELETE, EXIT}
 
     public LaunchScreen() {
         Context context = Context.getOrCreate();
@@ -44,11 +46,17 @@ public class LaunchScreen {
                     case WALLET:
                         load_wallet();
                         break;
+                    case DIGEST:
+                        digest();
+                        break;
                     case RESTORE:
                         restore();
                         break;
-                    case DIGEST:
-                        digest();
+                    case RENAME:
+                        reName();
+                        break;
+                    case RESEED:
+                        reSeed();
                         break;
                     case LISTEN:
                         listen();
@@ -61,8 +69,20 @@ public class LaunchScreen {
                 }
             } catch (Exception e) {
                 log.error("{} Error ", LaunchScreen.class.getName(), e);
+                terminal.println("Error occurred: " + e.getMessage());
             }
         }
+    }
+
+    private static void restore() throws UnreadableWalletException, IOException {
+        String walletName = getWalletName();
+        Kit.restoreWallet(walletName, Input::getPassword, terminal::println);
+    }
+
+    private static void reName() throws UnreadableWalletException, IOException {
+        String walletName= getWalletName();
+        String newName= getWalletName();
+        Kit.reName(walletName, newName);
     }
 
     private static void delete() throws IOException {
@@ -73,7 +93,7 @@ public class LaunchScreen {
         Kit.addLoggingInfoForWalletBlockEvents();
     }
 
-    private static void restore() {
+    private static void reSeed() {
         String seed_txt = getSeed();
         long epochSeconds = getEpochSeconds();
         String walletName= getWalletName();
@@ -87,11 +107,12 @@ public class LaunchScreen {
         terminal.print( "wallets: "+ Kit.getWalletNames().stream().sorted().collect(Collectors.joining(" ")) );
         terminal.println();
         String walletName = getWalletName();
-        try{
-            Kit.loadOrCreateWallet(walletName);
+        Kit.getWallet(walletName);
+        try {
             new WalletScreen(walletName).show();
-        }catch(Exception e){
-            log.error("load wallets ", e);
+        } catch (Exception e) {
+            log.error("Error occurred in WalletScreen: {}", walletName, e);
+            terminal.println("Error WalletScreen: " + walletName+" "+e.getMessage());
         }
     }
 

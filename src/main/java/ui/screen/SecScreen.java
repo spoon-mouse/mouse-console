@@ -1,17 +1,12 @@
 package ui.screen;
 
 import com.mouse.backend.Kit;
-import com.mouse.backend.util.CharArrayCharSequence;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.Wallet;
-
+import ui.input.Input;
 import java.io.IOException;
-import java.time.Instant;
-import java.util.Optional;
-import static ui.input.Input.getPassword;
 
 public class SecScreen {
     public static final String BAD_WALLET_DECRYPTION = "ERROR INVALID PASSWORD: bad wallet decryption";
@@ -48,32 +43,7 @@ public class SecScreen {
 
     private void show_wallet_seed() throws IOException {
         terminal.println("WARN showing SEED in plain text for wallet "+walletName);
-
-        CharSequence password=null;
-        final boolean walletEncrypted_at_start = wallet.isEncrypted();
-
-        try {
-            if(wallet.isEncrypted()){
-                password = CharArrayCharSequence.of(getPassword());
-                wallet.decrypt(password);
-            }
-            DeterministicSeed deterministicSeed = wallet.getKeyChainSeed();
-
-            final Optional<Instant> creationTime = deterministicSeed.getCreationTime();
-            if(creationTime.isPresent()) {
-                final long epochSeconds = creationTime.get().getEpochSecond();
-                terminal.println("creation epoch seconds: "+epochSeconds);
-            }
-            final String seed = deterministicSeed.getMnemonicString();
-            terminal.println(seed);
-
-        }catch (Wallet.BadWalletEncryptionKeyException e){
-            terminal.println(BAD_WALLET_DECRYPTION);
-        }finally {
-            if(!wallet.isEncrypted() && walletEncrypted_at_start){
-                wallet.encrypt(password);
-            }
-            password=null;
-        }
+        terminal.println("Creation Time: " + Kit.getWalletCreationTime(walletName));
+        terminal.println("Seed: " + Kit.getWalletSeed(walletName, Input::getPassword));
     }
 }
