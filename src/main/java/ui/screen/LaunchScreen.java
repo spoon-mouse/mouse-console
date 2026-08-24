@@ -1,6 +1,7 @@
 package ui.screen;
 
 import com.mouse.backend.Kit;
+import com.mouse.backend.util.Config;
 import de.vandermeer.asciitable.AsciiTable;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -26,14 +27,11 @@ public class LaunchScreen {
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
 
-    public enum Choice {WALLET, DIGEST, RESTORE, RENAME, RESEED, LISTEN, DELETE, EXIT}
+    public enum Choice {WALLET, DIGEST, RESTORE, RENAME, RESEED, LISTEN, DELETE, BACK, EXIT}
 
     public LaunchScreen() {
         Context context = Context.getOrCreate();
         Context.propagate(context);
-
-        Kit.start(new File("./wallet"));
-        Runtime.getRuntime().addShutdownHook(new Thread(Kit::stop));
         show();
     }
 
@@ -64,6 +62,8 @@ public class LaunchScreen {
                     case DELETE:
                         delete();
                         break;
+                    case BACK:
+                        return;
                     case EXIT:
                         System.exit(0);
                 }
@@ -103,11 +103,11 @@ public class LaunchScreen {
     }
 
 
-    private static void load_wallet() {
+    private static void load_wallet() throws UnreadableWalletException, IOException {
         terminal.print( "wallets: "+ Kit.getWalletNames().stream().sorted().collect(Collectors.joining(" ")) );
         terminal.println();
         String walletName = getWalletName();
-        Kit.getWallet(walletName);
+        Kit.loadOrCreateWallet(walletName);
         try {
             new WalletScreen(walletName).show();
         } catch (Exception e) {
