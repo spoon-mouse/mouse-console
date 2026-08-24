@@ -15,3 +15,4 @@ dependency-reduced-pom.xml
 *.pass
 *.seed
 *.DS_Store
+csvRepo.log
