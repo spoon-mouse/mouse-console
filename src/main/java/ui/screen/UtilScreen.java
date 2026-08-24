@@ -12,7 +12,7 @@ import java.io.IOException;
 import static ui.input.Input.getReddemScriptKV;
 
 public class UtilScreen {
-    public enum Choice { CAST, DOWN, SAVE, ADD_REDEEM, VIEW_REDEEM_SCRIPTS, VIEW_WATCHED_SCRIPTS, BACK, EXIT; }
+    public enum Choice { CAST, DOWN, SAVE, RESTORE_REDEEM, ADD_REDEEM, VIEW_REDEEM_SCRIPTS, VIEW_WATCHED_SCRIPTS, BACK, EXIT; }
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal terminal = textIO.getTextTerminal();
 
@@ -39,6 +39,9 @@ public class UtilScreen {
                 case SAVE:
                     terminal.println("saving:");
                     Kit.save();
+                    break;
+                case RESTORE_REDEEM:
+                    Kit.restoreRedeemScripts(walletName);
                     break;
                 case ADD_REDEEM:
                     Kit.addRedeemScript(walletName, getReddemScriptKV());
