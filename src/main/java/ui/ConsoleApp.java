@@ -11,6 +11,7 @@ import ui.screen.LaunchScreen;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,10 @@ public class ConsoleApp {
                 Kit.start(f);
                 new LaunchScreen();
                 Kit.stop();
-                dir = textIO.newStringInputReader().withDefaultValue(f.toString()).withInputTrimming(true).read("portfolio ");
+
+                File[] directories = new File(".").listFiles(File::isDirectory);
+
+                dir = textIO.newStringInputReader().withDefaultValue(Arrays.toString(directories)).withInputTrimming(true).read("portfolio ");
 
             } catch (Exception e) {
                 log.error("{} Error ", LaunchScreen.class.getName(), e);

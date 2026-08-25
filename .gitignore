@@ -15,4 +15,4 @@ dependency-reduced-pom.xml
 *.pass
 *.seed
 *.DS_Store
-wallet/checkSeqVer.log
+wallet*/checkSeqVer.log
