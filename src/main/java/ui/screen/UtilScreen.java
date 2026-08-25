@@ -44,7 +44,7 @@ public class UtilScreen {
                     Kit.restoreRedeemScripts(walletName);
                     break;
                 case ADD_REDEEM:
-                    Kit.addRedeemScript(walletName, getReddemScriptKV());
+                    //Kit.addRedeemScript(walletName, getReddemScriptKV());
                     break;
                 case VIEW_REDEEM_SCRIPTS:
                     terminal.println(walletName+" view redeem scripts:");
