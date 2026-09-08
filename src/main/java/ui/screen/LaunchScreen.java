@@ -7,6 +7,7 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.bitcoinj.core.*;
+import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,7 @@ public class LaunchScreen {
         }
     }
 
-    private static void restore() throws UnreadableWalletException, IOException {
+    private static void restore() throws UnreadableWalletException, IOException, MnemonicException {
         String walletName = getWalletName();
         Kit.restoreWallet(walletName, Input::getPassword, terminal::println);
     }
@@ -98,7 +99,12 @@ public class LaunchScreen {
         long epochSeconds = getEpochSeconds();
         String walletName= getWalletName();
         terminal.print("restoring...");
-        Kit.restore_from_seed(walletName, seed_txt, epochSeconds, terminal::println);
+
+        try {
+            Kit.restore_from_seed(walletName, seed_txt, epochSeconds, terminal::println);
+        } catch (MnemonicException e) {
+            terminal.println("Invalid seed provided.");
+        }
         terminal.print("restored");
     }
 
