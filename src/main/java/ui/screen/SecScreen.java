@@ -9,6 +9,7 @@ import ui.input.Input;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 
 public class SecScreen {
     public static final String BAD_WALLET_DECRYPTION = "ERROR INVALID PASSWORD: bad wallet decryption";
@@ -47,7 +48,7 @@ public class SecScreen {
         terminal.println("WARN showing SEED in plain text for wallet "+walletName);
         terminal.println("Creation Time: " + Kit.getWalletCreationTime(walletName));
         try {
-            final List<char[]> walletSeedWords = Kit.getWalletSeed2(walletName, Input::getPassword);
+            final List<char[]> walletSeedWords = Kit.getWalletSeed(walletName, Input::getPassword);
 
             terminal.print("Seed Phrases: ");
             for (char[] seedWord : walletSeedWords) {
