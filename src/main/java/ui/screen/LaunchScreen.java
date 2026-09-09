@@ -15,6 +15,7 @@ import ui.input.Input;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
 import static ui.input.Input.*;
@@ -75,7 +76,7 @@ public class LaunchScreen {
         }
     }
 
-    private static void restore() throws UnreadableWalletException, IOException, MnemonicException {
+    private static void restore() throws UnreadableWalletException, IOException, MnemonicException, NoSuchAlgorithmException, ReflectiveOperationException {
         String walletName = getWalletName();
         Kit.restoreWallet(walletName, Input::getPassword, terminal::println);
     }

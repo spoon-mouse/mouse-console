@@ -7,6 +7,8 @@ import org.beryx.textio.TextTerminal;
 import org.bitcoinj.wallet.Wallet;
 import ui.input.Input;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class SecScreen {
     public static final String BAD_WALLET_DECRYPTION = "ERROR INVALID PASSWORD: bad wallet decryption";
@@ -44,6 +46,21 @@ public class SecScreen {
     private void show_wallet_seed() throws IOException {
         terminal.println("WARN showing SEED in plain text for wallet "+walletName);
         terminal.println("Creation Time: " + Kit.getWalletCreationTime(walletName));
-        terminal.println("Seed: " + Kit.getWalletSeed(walletName, Input::getPassword));
+        try {
+            final List<char[]> walletSeedWords = Kit.getWalletSeed2(walletName, Input::getPassword);
+
+            terminal.print("Seed Phrases: ");
+            for (char[] seedWord : walletSeedWords) {
+                terminal.print(String.valueOf(seedWord)+" ");
+            }
+            terminal.println();
+
+            for (char[] seedWord : walletSeedWords) {
+                Arrays.fill(seedWord, '\0');
+            }
+
+        } catch (NoSuchAlgorithmException | ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
