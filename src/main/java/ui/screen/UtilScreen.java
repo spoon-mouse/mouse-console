@@ -21,7 +21,7 @@ public class UtilScreen {
 
     public UtilScreen(String name){
         walletName=name;
-        wallet = Kit.wallet(walletName);
+        wallet = Kit.getWallet(walletName);
     }
 
     public void show() throws IOException {
@@ -38,7 +38,7 @@ public class UtilScreen {
                     break;
                 case SAVE:
                     terminal.println("saving:");
-                    Kit.save();
+                    Kit.save(walletName);
                     break;
                 case RESTORE_REDEEM:
                     Kit.restoreRedeemScripts(walletName);

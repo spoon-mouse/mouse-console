@@ -26,7 +26,7 @@ public class InfoScreen {
 
     public InfoScreen(String name){
         walletName=name;
-        wallet= Kit.wallet(walletName);
+        wallet= Kit.getWallet(walletName);
     }
 
     public void show(){

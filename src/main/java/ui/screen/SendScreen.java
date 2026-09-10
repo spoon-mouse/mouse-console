@@ -33,7 +33,7 @@ public class SendScreen {
 
     public SendScreen(String name){
         walletName=name;
-        wallet=Kit.wallet(walletName);
+        wallet=Kit.getWallet(walletName);
         pg=Kit.peerGroup();
     }
 
